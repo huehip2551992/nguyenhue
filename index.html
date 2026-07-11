@@ -1,1 +1,612 @@
-i
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday Nguyễn Khánh</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+overflow-x:hidden;
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#2b1802,#5a3908,#8c6115,#2b1802);
+color:#fff;
+}
+body:before{
+content:"";
+position:fixed;inset:0;
+background:
+radial-gradient(circle at 20% 20%,rgba(255,215,0,.25),transparent 30%),
+radial-gradient(circle at 80% 40%,rgba(255,230,120,.18),transparent 25%);
+animation:bgmove 10s ease-in-out infinite alternate;
+pointer-events:none;
+}
+@keyframes bgmove{
+to{transform:scale(1.08) rotate(2deg);}
+}
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+}
+h1{
+font-size:clamp(42px,8vw,90px);
+background:linear-gradient(#fffbe5,#ffd54d,#ffef99);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 30px rgba(255,215,0,.6);
+animation:glow 2s infinite alternate;
+}
+@keyframes glow{
+from{filter:drop-shadow(0 0 10px gold)}
+to{filter:drop-shadow(0 0 30px #fff2a8)}
+}
+
+.cake{
+position:relative;
+width:105px;
+height:105px;
+margin-bottom:24px;
+animation:cakeFloat 2.2s ease-in-out infinite;
+filter:drop-shadow(0 0 18px rgba(255,215,0,.6));
+}
+.cake-base{
+position:absolute;
+left:8px;bottom:0;
+width:89px;height:46px;
+border-radius:12px 12px 20px 20px;
+background:linear-gradient(180deg,#f8c943,#a96b08);
+border:2px solid #ffe89a;
+}
+.cake-top{
+position:absolute;
+left:1px;bottom:39px;
+width:103px;height:27px;
+border-radius:50%;
+background:linear-gradient(180deg,#fff3b0,#e5a821);
+border:2px solid #fff1a6;
+}
+.candle{
+position:absolute;
+left:48px;bottom:64px;
+width:10px;height:27px;
+border-radius:4px;
+background:repeating-linear-gradient(45deg,#fff5bf 0 5px,#d99b12 5px 10px);
+}
+.flame{
+position:absolute;
+left:47px;bottom:90px;
+width:13px;height:19px;
+border-radius:50% 50% 50% 15%;
+background:radial-gradient(circle at 50% 65%,#fff 0 12%,#ffe45c 32%,#ff9418 70%);
+transform:rotate(45deg);
+animation:flameDance .55s ease-in-out infinite alternate;
+box-shadow:0 0 18px #ffd84d;
+}
+.happy-line{white-space:nowrap}
+@keyframes cakeFloat{
+50%{transform:translateY(-9px)}
+}
+@keyframes flameDance{
+from{transform:rotate(40deg) scale(.95)}
+to{transform:rotate(51deg) scale(1.08)}
+}
+
+.sub{margin-top:20px;font-size:22px;color:#ffe9a6}
+.gallery{
+position:relative;
+width:min(92vw,960px);
+height:min(72vh,640px);
+margin:40px auto 70px;
+overflow:hidden;
+border-radius:30px;
+border:2px solid rgba(255,220,100,.55);
+box-shadow:0 0 45px rgba(255,215,0,.3);
+background:#2b1802;
+opacity:0;
+transform:translateY(45px) scale(.96);
+transition:opacity .9s ease,transform .9s ease;
+}
+.gallery.show{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+.slideshow-title{
+text-align:center;
+opacity:0;
+transform:translateY(25px);
+transition:opacity .8s ease,transform .8s ease;
+}
+.slideshow-title.show{
+opacity:1;
+transform:translateY(0);
+}
+.slideshow-title{
+font-size:clamp(26px,4vw,44px);
+color:#ffe886;
+text-shadow:0 0 20px rgba(255,215,0,.6);
+margin-top:20px;
+}
+
+.card{
+position:absolute;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+opacity:0;
+transform:scale(1.035);
+transition:opacity .8s ease,transform 2s ease;
+pointer-events:none;
+}
+.card.active{
+opacity:1;
+transform:scale(1);
+pointer-events:auto;
+}
+.card img{
+display:block;
+width:100%;
+height:100%;
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+object-position:center;
+background:#2b1802;
+}
+.card::after{
+content:"";
+position:absolute;inset:0;
+background:linear-gradient(to top,rgba(35,18,0,.65),transparent 55%);
+pointer-events:none;
+}
+.upload{
+position:absolute;inset:0;
+display:flex;justify-content:center;align-items:center;
+cursor:pointer;
+background:rgba(40,25,0,.12);
+font-size:20px;
+color:#fff5c0;
+transition:.3s;
+z-index:3;
+}
+.upload.compact{
+inset:auto 18px 18px auto;
+padding:10px 16px;
+border-radius:999px;
+background:rgba(48,27,1,.74);
+border:1px solid rgba(255,230,140,.7);
+font-size:15px;
+backdrop-filter:blur(8px);
+}
+.upload.compact:hover{background:rgba(121,78,7,.9);transform:translateY(-2px)}
+input{display:none}
+.letter{
+max-width:900px;
+margin:60px auto;
+padding:50px;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,230,120,.4);
+border-radius:30px;
+line-height:2;
+font-size:20px;
+box-shadow:0 0 40px rgba(255,215,0,.2);
+}
+footer{
+padding:80px 20px;
+text-align:center;
+font-size:55px;
+font-weight:bold;
+background:linear-gradient(#fff,#ffd54d);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+.gold{
+position:fixed;
+width:8px;height:8px;
+border-radius:50%;
+background:gold;
+pointer-events:none;
+animation:fall linear forwards;
+}
+@keyframes fall{
+to{transform:translateY(110vh) translateX(var(--x));opacity:0}
+}
+button{
+position:fixed;right:20px;top:20px;
+padding:12px 18px;
+border:none;border-radius:50px;
+background:gold;
+font-weight:bold;
+cursor:pointer;
+}
+
+button::before{
+content:"♪";
+display:inline-block;
+margin-right:7px;
+font-family:Georgia,serif;
+font-size:18px;
+}
+.slideshow-title::before,
+.slideshow-title::after{
+content:"◆";
+display:inline-block;
+margin:0 12px;
+font-size:.55em;
+vertical-align:middle;
+color:#ffd85a;
+}
+.letter b::before{
+content:"♥";
+display:inline-block;
+margin-right:8px;
+color:#ffd85a;
+font-family:Georgia,serif;
+}
+footer::after{
+content:" ♥";
+font-family:Georgia,serif;
+color:#ffd85a;
+}
+
+
+.card.missing-photo{
+display:flex;
+align-items:center;
+justify-content:center;
+background:
+radial-gradient(circle at 30% 25%,rgba(255,238,160,.2),transparent 28%),
+linear-gradient(135deg,#2b1802,#8c6115,#3a2103);
+}
+.card.missing-photo::before{
+content:attr(data-number);
+position:absolute;
+font-family:Georgia,serif;
+font-size:clamp(90px,18vw,220px);
+font-weight:bold;
+color:#fff1a6;
+text-shadow:0 0 30px rgba(255,215,0,.55);
+z-index:1;
+}
+.card.missing-photo::after{
+background:
+linear-gradient(to top,rgba(35,18,0,.65),transparent 55%),
+linear-gradient(135deg,transparent 48%,rgba(255,232,140,.18) 50%,transparent 52%);
+}
+
+
+.card.missing::before{
+content:"Chưa có ảnh";
+position:absolute;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:32px;
+color:#ffe89a;
+z-index:1;
+}
+
+@media (max-width: 768px){
+  body{overflow-x:hidden}
+  .hero{
+    min-height:100svh;
+    height:auto;
+    padding:90px 18px 50px;
+  }
+  .cake{
+    width:82px;
+    height:82px;
+    margin-bottom:18px;
+    transform:scale(.9);
+  }
+  h1{
+    font-size:clamp(36px,11vw,58px);
+    line-height:1.08;
+    padding:0 8px;
+  }
+  .happy-line{
+    white-space:normal;
+    display:block;
+  }
+  .sub{
+    margin-top:16px;
+    font-size:17px;
+    line-height:1.55;
+    padding:0 12px;
+  }
+  button{
+    top:12px;
+    right:12px;
+    padding:9px 13px;
+    font-size:12px;
+    z-index:999;
+  }
+  .slideshow-title{
+    font-size:24px;
+    line-height:1.35;
+    padding:0 16px;
+    margin-top:30px;
+  }
+  .slideshow-title::before,
+  .slideshow-title::after{
+    margin:0 6px;
+  }
+  .gallery{
+    width:calc(100% - 24px);
+    margin:24px auto 45px;
+    min-height:0;
+    height:auto;
+    aspect-ratio:auto;
+    max-height:none;
+    border-radius:20px;
+  }
+  .card{
+    position:absolute;
+    inset:0;
+    min-height:0;
+  }
+  .card img{
+    width:100%;
+    height:auto;
+    max-height:78svh;
+    object-fit:contain;
+    object-position:center;
+    display:block;
+    margin:auto;
+  }
+  .gallery{
+    height:min(72svh,620px);
+  }
+  .letter{
+    width:calc(100% - 24px);
+    margin:35px auto;
+    padding:26px 20px;
+    border-radius:22px;
+    font-size:17px;
+    line-height:1.8;
+  }
+  footer{
+    padding:55px 15px;
+    font-size:34px;
+    line-height:1.2;
+  }
+}
+@media (max-width: 420px){
+  h1{font-size:38px}
+  .sub{font-size:16px}
+  .gallery{height:58svh}
+  .letter{font-size:16px;padding:22px 17px}
+  footer{font-size:29px}
+}
+
+
+@media (max-width:768px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  .hero{
+    min-height:100svh;
+    height:auto;
+    padding:86px 16px 44px;
+  }
+  h1{
+    width:100%;
+    max-width:100%;
+    font-size:clamp(34px,10vw,52px);
+    line-height:1.08;
+    overflow-wrap:anywhere;
+  }
+  .happy-line{white-space:normal}
+  .sub{font-size:16px;line-height:1.55;padding:0 10px}
+  .cake{transform:scale(.82);margin-bottom:8px}
+  button{
+    top:max(10px,env(safe-area-inset-top));
+    right:10px;
+    z-index:9999;
+    padding:9px 12px;
+    font-size:11px;
+  }
+  .slideshow-title{
+    width:100%;
+    padding:0 14px;
+    font-size:22px;
+    line-height:1.35;
+  }
+  .gallery{
+    width:calc(100vw - 20px);
+    max-width:calc(100vw - 20px);
+    height:68svh;
+    max-height:620px;
+    min-height:320px;
+    margin:22px 10px 42px;
+    border-radius:18px;
+    box-sizing:border-box;
+  }
+  .card{
+    width:100%;
+    height:100%;
+    max-width:100%;
+    overflow:hidden;
+  }
+  .card img{
+    width:100%;
+    height:100%;
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+  }
+  .letter{
+    width:calc(100vw - 20px);
+    max-width:calc(100vw - 20px);
+    margin:34px 10px;
+    padding:24px 18px;
+    font-size:16px;
+    line-height:1.8;
+    border-radius:20px;
+  }
+  footer{
+    width:100%;
+    padding:48px 12px;
+    font-size:30px;
+  }
+}
+@media (max-width:420px){
+  .gallery{height:60svh;min-height:300px}
+  h1{font-size:36px}
+  .slideshow-title{font-size:20px}
+}
+
+</style>
+</head>
+<body>
+
+<button onclick="music()">BẬT NHẠC</button>
+
+<section class="hero">
+<div class="cake" aria-hidden="true">
+  <span class="flame"></span>
+  <span class="candle"></span>
+  <span class="cake-top"></span>
+  <span class="cake-base"></span>
+</div>
+<h1><span class="happy-line">Happy Birthday</span><br>Nguyễn Khánh</h1>
+<div class="sub">Chúc mừng sinh nhật người chồng em yêu nhất</div>
+</section>
+
+<h2 class="slideshow-title">KHOẢNH KHẮC CỦA CHÚNG TA</h2>
+<section class="gallery" id="gallery">
+<div class="card active"><img src="images/01.jpg" alt="Ảnh 01"></div>
+<div class="card"><img src="images/02.jpg" alt="Ảnh 02"></div>
+<div class="card"><img src="images/03.jpg" alt="Ảnh 03"></div>
+<div class="card"><img src="images/04.jpg" alt="Ảnh 04"></div>
+</section>
+
+<div class="letter" id="birthdayLetter">
+<b>Gửi chồng yêu Nguyễn Khánh!</b><br><br>
+Cảm ơn anh đã luôn yêu thương, chở che và đồng hành cùng em trong mọi chặng đường.
+Em chúc anh tuổi mới luôn mạnh khỏe, hạnh phúc, thành công và mãi giữ nụ cười ấm áp.
+Mong rằng chúng ta sẽ cùng nhau tạo nên thật nhiều kỷ niệm đẹp, cùng nắm tay đi hết quãng đường còn lại của cuộc đời.
+<br><br>
+Em yêu anh rất nhiều
+</div>
+
+<footer>FOREVER LOVE</footer>
+
+<script>
+
+
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="gold";
+  s.style.left=Math.random()*100+"vw";
+  s.style.top="-10px";
+  s.style.setProperty("--x",(Math.random()*120-60)+"px");
+  s.style.animationDuration=(3+Math.random()*4)+"s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),7000);
+},120);
+
+const bgMusic=document.getElementById("bgMusic");
+let musicOn=false;
+
+async function startMusic(){
+  try{
+    bgMusic.volume=0.75;
+    await bgMusic.play();
+    musicOn=true;
+    const btn=document.querySelector("button");
+    if(btn) btn.textContent="TẮT NHẠC";
+  }catch(err){
+    musicOn=false;
+  }
+}
+
+function music(){
+  const btn=document.querySelector("button");
+  if(bgMusic.paused){
+    startMusic();
+  }else{
+    bgMusic.pause();
+    musicOn=false;
+    if(btn) btn.textContent="BẬT NHẠC";
+  }
+}
+
+window.addEventListener("load",()=>{
+  startMusic();
+  const unlock=()=>{
+    if(bgMusic.paused) startMusic();
+    document.removeEventListener("touchstart",unlock);
+    document.removeEventListener("click",unlock);
+  };
+  document.addEventListener("touchstart",unlock,{once:true,passive:true});
+  document.addEventListener("click",unlock,{once:true});
+});
+
+
+document.querySelectorAll(".card img").forEach((img,index)=>{
+  img.addEventListener("error",()=>{
+    const n=String(index+1).padStart(2,"0");
+    img.removeAttribute("src");
+    img.alt="Chưa có ảnh "+n;
+    img.parentElement.classList.add("missing-photo");
+    img.parentElement.setAttribute("data-number",n);
+  });
+});
+
+document.querySelectorAll(".card img").forEach(img=>{
+  img.addEventListener("error",()=>{
+    img.parentElement.classList.add("missing");
+    img.style.display="none";
+  });
+});
+
+// Sau 3 giây, cuộn tới slideshow và làm slideshow "bung" lên.
+// Mỗi ảnh hiển thị 2 giây; sau ảnh cuối tự cuộn tới lời chúc.
+window.addEventListener("DOMContentLoaded",()=>{
+  const gallery=document.getElementById("gallery");
+  const title=document.querySelector(".slideshow-title");
+  const cards=Array.from(document.querySelectorAll(".card"));
+  const letter=document.getElementById("birthdayLetter");
+
+  cards.forEach((card,index)=>card.classList.toggle("active",index===0));
+
+  setTimeout(()=>{
+    title.classList.add("show");
+    gallery.classList.add("show");
+
+    gallery.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+    let current=0;
+    const nextSlide=()=>{
+      if(current < cards.length-1){
+        cards[current].classList.remove("active");
+        current++;
+        cards[current].classList.add("active");
+        setTimeout(nextSlide,2000);
+      }else{
+        setTimeout(()=>{
+          letter.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+          });
+        },2000);
+      }
+    };
+
+    setTimeout(nextSlide,2000);
+  },3000);
+});
+</script>
+<audio id="bgMusic" src="music.mp3" preload="auto" loop playsinline></audio>
+</body>
+</html>
