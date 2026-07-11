@@ -219,12 +219,18 @@ animation:fall linear forwards;
 to{transform:translateY(110vh) translateX(var(--x));opacity:0}
 }
 button{
-position:fixed;right:20px;top:20px;
-padding:12px 18px;
-border:none;border-radius:50px;
+position:fixed;
+right:14px;
+bottom:max(14px,env(safe-area-inset-bottom));
+top:auto;
+padding:10px 14px;
+border:none;
+border-radius:50px;
 background:gold;
 font-weight:bold;
 cursor:pointer;
+z-index:9999;
+box-shadow:0 8px 24px rgba(0,0,0,.28);
 }
 
 button::before{
@@ -323,11 +329,12 @@ z-index:1;
     padding:0 12px;
   }
   button{
-    top:12px;
+    top:auto;
     right:12px;
+    bottom:max(12px,env(safe-area-inset-bottom));
     padding:9px 13px;
     font-size:12px;
-    z-index:999;
+    z-index:9999;
   }
   .slideshow-title{
     font-size:24px;
@@ -406,8 +413,9 @@ z-index:1;
   .sub{font-size:16px;line-height:1.55;padding:0 10px}
   .cake{transform:scale(.82);margin-bottom:8px}
   button{
-    top:max(10px,env(safe-area-inset-top));
+    top:auto;
     right:10px;
+    bottom:max(10px,env(safe-area-inset-bottom));
     z-index:9999;
     padding:9px 12px;
     font-size:11px;
@@ -498,6 +506,7 @@ Em yêu anh rất nhiều
 
 <footer>FOREVER LOVE</footer>
 
+<audio id="bgMusic" src="music.mp3" preload="auto" autoplay loop playsinline></audio>
 <script>
 
 
@@ -516,11 +525,13 @@ const bgMusic=document.getElementById("bgMusic");
 let musicOn=false;
 
 async function startMusic(){
+  if(!bgMusic) return;
   try{
     bgMusic.volume=0.75;
+    bgMusic.muted=false;
     await bgMusic.play();
     musicOn=true;
-    const btn=document.querySelector("button");
+    const btn=document.querySelector("body > button");
     if(btn) btn.textContent="TẮT NHẠC";
   }catch(err){
     musicOn=false;
@@ -528,7 +539,8 @@ async function startMusic(){
 }
 
 function music(){
-  const btn=document.querySelector("button");
+  if(!bgMusic) return;
+  const btn=document.querySelector("body > button");
   if(bgMusic.paused){
     startMusic();
   }else{
@@ -538,15 +550,24 @@ function music(){
   }
 }
 
-window.addEventListener("load",()=>{
+document.addEventListener("DOMContentLoaded",()=>{
   startMusic();
-  const unlock=()=>{
-    if(bgMusic.paused) startMusic();
-    document.removeEventListener("touchstart",unlock);
-    document.removeEventListener("click",unlock);
+
+  const unlockMusic=()=>{
+    if(bgMusic && bgMusic.paused) startMusic();
   };
-  document.addEventListener("touchstart",unlock,{once:true,passive:true});
-  document.addEventListener("click",unlock,{once:true});
+
+  window.addEventListener("load",startMusic,{once:true});
+  window.addEventListener("pageshow",startMusic);
+  document.addEventListener("visibilitychange",()=>{
+    if(document.visibilityState==="visible" && bgMusic && bgMusic.paused){
+      startMusic();
+    }
+  });
+
+  document.addEventListener("touchstart",unlockMusic,{once:true,passive:true});
+  document.addEventListener("pointerdown",unlockMusic,{once:true});
+  document.addEventListener("click",unlockMusic,{once:true});
 });
 
 
@@ -607,6 +628,5 @@ window.addEventListener("DOMContentLoaded",()=>{
   },3000);
 });
 </script>
-<audio id="bgMusic" src="music.mp3" preload="auto" loop playsinline></audio>
 </body>
 </html>
