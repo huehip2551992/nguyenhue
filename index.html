@@ -470,9 +470,44 @@ z-index:1;
   .slideshow-title{font-size:20px}
 }
 
+
+.slideshow-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.82);
+backdrop-filter:blur(4px);
+opacity:0;
+visibility:hidden;
+transition:opacity .7s ease,visibility .7s ease;
+z-index:9000;
+pointer-events:none;
+}
+.slideshow-overlay.active{
+opacity:1;
+visibility:visible;
+}
+.slideshow-focus{
+position:relative;
+z-index:9001;
+}
+body.slideshow-running{
+overflow:hidden;
+}
+body.slideshow-running .hero,
+body.slideshow-running .letter,
+body.slideshow-running footer,
+body.slideshow-running .slideshow-title{
+filter:brightness(.18);
+transition:filter .6s ease;
+}
+body.slideshow-running .gallery{
+filter:none;
+}
+
 </style>
 </head>
 <body>
+<div class="slideshow-overlay" id="slideshowOverlay"></div>
 
 <button onclick="music()">BẬT NHẠC</button>
 
@@ -488,7 +523,7 @@ z-index:1;
 </section>
 
 <h2 class="slideshow-title">KHOẢNH KHẮC CỦA CHÚNG TA</h2>
-<section class="gallery" id="gallery">
+<section class="gallery slideshow-focus" id="gallery">
 <div class="card active"><img src="images/01.jpg" alt="Ảnh 01"></div>
 <div class="card"><img src="images/02.jpg" alt="Ảnh 02"></div>
 <div class="card"><img src="images/03.jpg" alt="Ảnh 03"></div>
@@ -599,6 +634,10 @@ window.addEventListener("DOMContentLoaded",()=>{
   cards.forEach((card,index)=>card.classList.toggle("active",index===0));
 
   setTimeout(()=>{
+    const overlay=document.getElementById("slideshowOverlay");
+
+    document.body.classList.add("slideshow-running");
+    overlay.classList.add("active");
     title.classList.add("show");
     gallery.classList.add("show");
 
@@ -616,10 +655,15 @@ window.addEventListener("DOMContentLoaded",()=>{
         setTimeout(nextSlide,2000);
       }else{
         setTimeout(()=>{
-          letter.scrollIntoView({
-            behavior:"smooth",
-            block:"center"
-          });
+          overlay.classList.remove("active");
+          document.body.classList.remove("slideshow-running");
+
+          setTimeout(()=>{
+            letter.scrollIntoView({
+              behavior:"smooth",
+              block:"center"
+            });
+          },500);
         },2000);
       }
     };
